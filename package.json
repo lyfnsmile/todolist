@@ -15,7 +15,6 @@
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-stage-1": "^6.5.0",
     "css-loader": "^0.23.1",
-    "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.14.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
@@ -25,15 +24,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start_html": "webpack --config webpack.html.config.js",
-    "start_es6": "webpack --config webpack.es6.config.js",
-    "start_react": "webpack --config webpack.react.config.js",
-    "start_todo": "webpack --config webpack.todo.config.js",
-    "build": "webpack-dev-server --port 3000 --hot --inline",
-    "build_es6": "webpack-dev-server --port 4000 --hot --inline --config webpack.es6.config.js",
-    "build_react": "webpack-dev-server --port 4000 --hot --inline --config webpack.react.config.js",
-    "build_todo": "webpack-dev-server --port 4000 --hot --inline --config webpack.todo.config.js"
+    "start": "webpack --config webpack.config.js",
+    "build": "webpack-dev-server --port 4000 --hot --inline --config webpack.config.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
