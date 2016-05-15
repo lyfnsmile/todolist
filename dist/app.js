@@ -48,6 +48,10 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -56,19 +60,141 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _Component = __webpack_require__(159);
+	var _app = __webpack_require__(159);
 
-	var _Component2 = _interopRequireDefault(_Component);
+	var _app2 = _interopRequireDefault(_app);
 
-	__webpack_require__(160);
+	var _item = __webpack_require__(161);
+
+	var _item2 = _interopRequireDefault(_item);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	window.onload = function () {
-	  _reactDom2.default.render(_react2.default.createElement(_Component2.default, null), document.querySelector('#container'));
-	};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	__webpack_require__(162);
+	__webpack_require__(166);
+
+	var Main = function (_React$Component) {
+		_inherits(Main, _React$Component);
+
+		function Main() {
+			_classCallCheck(this, Main);
+
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(Main).apply(this, arguments));
+		}
+
+		_createClass(Main, [{
+			key: 'render',
+			value: function render() {
+
+				var dataArr = this.props.dataArr;
+				var content,
+				    footer,
+				    num = 0;
+
+				dataArr.reduce(function (n, item) {
+					num = item.compile ? num : num + 1;
+				}, 0);
+
+				if (dataArr.length !== 0) {
+					content = _react2.default.createElement(
+						'section',
+						{ className: 'main' },
+						_react2.default.createElement('input', { className: 'toggle-all',
+							type: 'checkbox',
+							checked: num === 0,
+							onChange: this.toggleAll
+						}),
+						_react2.default.createElement(
+							'ul',
+							{ className: 'todo-list' },
+							dataArr.map(function (item, index) {
+								return _react2.default.createElement(_item2.default, _extends({ key: index }, item, {
+									toggle: _app2.default.toggle.bind(this, item.id),
+									delectItem: _app2.default.delectItem.bind(this, item.id)
+								}));
+							}.bind(this))
+						)
+					);
+
+					footer = _react2.default.createElement(
+						'footer',
+						{ className: 'footer' },
+						_react2.default.createElement(
+							'span',
+							{ className: 'todo-count' },
+							_react2.default.createElement(
+								'strong',
+								null,
+								num
+							),
+							_react2.default.createElement(
+								'span',
+								null,
+								'条未选中'
+							)
+						)
+					);
+				}
+
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'header',
+						{ className: 'header' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'todos'
+						),
+						_react2.default.createElement('input', {
+							className: 'new-todo',
+							placeholder: '请输入内容',
+							defaultValue: '',
+							onKeyDown: this.downHandle
+						})
+					),
+					content,
+					footer
+				);
+			}
+		}, {
+			key: 'downHandle',
+			value: function downHandle(ev) {
+				if (ev.keyCode === 13) {
+					_app2.default.addItem(ev.target.value);
+					ev.target.value = "";
+				}
+			}
+		}, {
+			key: 'toggleAll',
+			value: function toggleAll(ev) {
+				_app2.default.toggleAll(ev.target.checked);
+			}
+		}]);
+
+		return Main;
+	}(_react2.default.Component);
+
+	var section = document.createElement('section');
+	section.className = "todoapp";
+	document.body.appendChild(section);
+
+	function render(dataArr) {
+		_reactDom2.default.render(_react2.default.createElement(Main, { dataArr: dataArr }), section);
+	}
+
+	render(_app2.default.dataArr);
+
+	_app2.default.render = render;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "index.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 1 */
@@ -19687,48 +19813,226 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
-	var _react = __webpack_require__(1);
+	var _util = __webpack_require__(160);
 
-	var _react2 = _interopRequireDefault(_react);
+	var app = {
+		dataArr: [],
+		info: function info() {
+			(0, _util.store)("todo", app.dataArr);
+		},
+		addItem: function addItem(value) {
+			if (!value) {
+				alert('不能为空哦~~~');
+				return;
+			};
+			app.dataArr.push({
+				id: Date.now(),
+				content: value,
+				compile: false
+			});
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+			app.info();
 
-	var Component = _react2.default.createClass({
-	  displayName: 'Component',
+			app.render(app.dataArr);
+		},
+		toggleAll: function toggleAll(bl) {
+			app.dataArr.forEach(function (item) {
+				item.compile = bl;
+			});
+			app.info();
 
-	  render: function render() {
-	    if (this.props.onRender) {
-	      this.props.onRender();
-	    }
-	    return _react2.default.createElement(
-	      'p',
-	      null,
-	      'Hello world'
-	    );
-	  },
-	  propTypes: {
-	    onRender: _react2.default.PropTypes.func
-	  }
-	});
+			app.render(app.dataArr);
+		},
+		toggle: function toggle(id) {
+			app.dataArr.forEach(function (item) {
+				if (item.id === id) {
+					item.compile = !item.compile;
+				}
+			});
+			app.info();
 
-	exports.default = Component;
+			app.render(app.dataArr);
+		},
+		delectItem: function delectItem(id) {
+			var newArr = app.dataArr.filter(function (item) {
+				return item.id !== id;
+			});
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Component.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+			app.dataArr = newArr;
+			app.info();
+			app.render(app.dataArr);
+		}
+	};
+
+	app.dataArr = (0, _util.store)("todo") || [];
+
+	exports.default = app;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-api\\0.4.7\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var extend = function extend() {
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		var newObj = {};
+		for (var i = 0; i < args.length; i++) {
+			var obj = args[i];
+			for (var key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					newObj[key] = obj[key];
+				}
+			}
+		}
+		return newObj;
+	};
+
+	var store = function store(namespace, data) {
+		if (data) {
+			return localStorage.setItem(namespace, JSON.stringify(data));
+		}
+
+		var store = localStorage.getItem(namespace);
+		return store && JSON.parse(store) || [];
+	};
+
+	var hasOwn = Object.prototype.hasOwnProperty;
+	var classNames = function classNames() {
+		for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+			args[_key2] = arguments[_key2];
+		}
+
+		var classes = '';
+
+		for (var i = 0; i < args.length; i++) {
+			var arg = args[i];
+			if (!arg) continue;
+
+			var argType = typeof arg === 'undefined' ? 'undefined' : _typeof(arg);
+
+			if (argType === 'string' || argType === 'number') {
+				classes += ' ' + arg;
+			} else if (Array.isArray(arg)) {
+				classes += ' ' + classNames.apply(null, arg);
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes += ' ' + key;
+					}
+				}
+			}
+		}
+
+		return classes.substr(1);
+	};
+
+	exports.extend = extend;
+	exports.store = store;
+	exports.classNames = classNames;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "util.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-api\\0.4.7\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _util = __webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Item = function (_React$Component) {
+	  _inherits(Item, _React$Component);
+
+	  function Item() {
+	    _classCallCheck(this, Item);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Item).apply(this, arguments));
+	  }
+
+	  _createClass(Item, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        { className: (0, _util.classNames)({
+	            completed: this.props.compile
+	          }) },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'view' },
+	          _react2.default.createElement('input', { className: 'toggle', type: 'checkbox',
+	            checked: this.props.compile, onChange: this.props.toggle }),
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            this.props.content
+	          ),
+	          _react2.default.createElement('button', { className: 'destroy', onClick: this.props.delectItem })
+	        ),
+	        _react2.default.createElement('input', { className: 'edit', defaultValue: '多多对对对' })
+	      );
+	    }
+	  }]);
+
+	  return Item;
+	}(_react2.default.Component);
+
+	exports.default = Item;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("C:\\express\\todolist\\node_modules\\.npminstall\\react-hot-loader\\1.3.0\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "item.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(161);
+	var content = __webpack_require__(163);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(163)(content, {});
+	var update = __webpack_require__(165)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -19745,10 +20049,10 @@
 	}
 
 /***/ },
-/* 161 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(162)();
+	exports = module.exports = __webpack_require__(164)();
 	// imports
 
 
@@ -19759,7 +20063,7 @@
 
 
 /***/ },
-/* 162 */
+/* 164 */
 /***/ function(module, exports) {
 
 	/*
@@ -19815,7 +20119,7 @@
 
 
 /***/ },
-/* 163 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -20064,6 +20368,46 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(167);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(165)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./base.css", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.23.1/css-loader/index.js!./base.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(164)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "hr {\n\tmargin: 20px 0;\n\tborder: 0;\n\tborder-top: 1px dashed #c5c5c5;\n\tborder-bottom: 1px dashed #f7f7f7;\n}\n\n.learn a {\n\tfont-weight: normal;\n\ttext-decoration: none;\n\tcolor: #b83f45;\n}\n\n.learn a:hover {\n\ttext-decoration: underline;\n\tcolor: #787e7e;\n}\n\n.learn h3,\n.learn h4,\n.learn h5 {\n\tmargin: 10px 0;\n\tfont-weight: 500;\n\tline-height: 1.2;\n\tcolor: #000;\n}\n\n.learn h3 {\n\tfont-size: 24px;\n}\n\n.learn h4 {\n\tfont-size: 18px;\n}\n\n.learn h5 {\n\tmargin-bottom: 0;\n\tfont-size: 14px;\n}\n\n.learn ul {\n\tpadding: 0;\n\tmargin: 0 0 30px 25px;\n}\n\n.learn li {\n\tline-height: 20px;\n}\n\n.learn p {\n\tfont-size: 15px;\n\tfont-weight: 300;\n\tline-height: 1.3;\n\tmargin-top: 0;\n\tmargin-bottom: 0;\n}\n\n#issue-count {\n\tdisplay: none;\n}\n\n.quote {\n\tborder: none;\n\tmargin: 20px 0 60px 0;\n}\n\n.quote p {\n\tfont-style: italic;\n}\n\n.quote p:before {\n\tcontent: '\\201C';\n\tfont-size: 50px;\n\topacity: .15;\n\tposition: absolute;\n\ttop: -20px;\n\tleft: 3px;\n}\n\n.quote p:after {\n\tcontent: '\\201D';\n\tfont-size: 50px;\n\topacity: .15;\n\tposition: absolute;\n\tbottom: -42px;\n\tright: 3px;\n}\n\n.quote footer {\n\tposition: absolute;\n\tbottom: -40px;\n\tright: 0;\n}\n\n.quote footer img {\n\tborder-radius: 3px;\n}\n\n.quote footer a {\n\tmargin-left: 5px;\n\tvertical-align: middle;\n}\n\n.speech-bubble {\n\tposition: relative;\n\tpadding: 10px;\n\tbackground: rgba(0, 0, 0, .04);\n\tborder-radius: 5px;\n}\n\n.speech-bubble:after {\n\tcontent: '';\n\tposition: absolute;\n\ttop: 100%;\n\tright: 30px;\n\tborder: 13px solid transparent;\n\tborder-top-color: rgba(0, 0, 0, .04);\n}\n\n.learn-bar > .learn {\n\tposition: absolute;\n\twidth: 272px;\n\ttop: 8px;\n\tleft: -300px;\n\tpadding: 10px;\n\tborder-radius: 5px;\n\tbackground-color: rgba(255, 255, 255, .6);\n\ttransition-property: left;\n\ttransition-duration: 500ms;\n}\n\n@media (min-width: 899px) {\n\t.learn-bar {\n\t\twidth: auto;\n\t\tpadding-left: 300px;\n\t}\n\n\t.learn-bar > .learn {\n\t\tleft: 8px;\n\t}\n}\n", ""]);
+
+	// exports
 
 
 /***/ }
