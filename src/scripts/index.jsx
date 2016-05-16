@@ -45,6 +45,15 @@ class Main extends React.Component{
 			            	<strong>{num}</strong>
 			            	<span>条未选中</span>
 			            </span>
+			            <span className="todo-all selected" onClick={this.selectAll}>
+			            	all
+			            </span>
+			            <span className="todo-active" onClick={this.selectActive}>
+			            	active
+			            </span>
+			            <span className="todo-completed" onClick={this.selectCompleted}>
+			            	completed
+			            </span>
 		            </footer>
 		}
 
@@ -56,7 +65,7 @@ class Main extends React.Component{
 	                <h1>todos</h1>
 	                <input 
 	                	className="new-todo" 
-	                	placeholder="请输入内容" 
+	                	placeholder="what do you want to do?" 
 	                	defaultValue=""
 	                	onKeyDown={this.downHandle}
 	                />
