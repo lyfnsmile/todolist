@@ -7,7 +7,7 @@ import Item from './item.jsx';
 
 require('../style/index.css');
 require('../style/base.css');
-
+require('../style/new.scss');
 class Main extends React.Component{
 	render(){
 

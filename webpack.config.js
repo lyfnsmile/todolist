@@ -10,15 +10,19 @@ module.exports = {
     },
     module: {
         loaders: [{
-            test: /.css$/,
+            test: /\.css$/,
             loaders: ["style", "css"],
             exclude: "/node_modules/"
         }, {
-            test: /.less$/,
+            test: /\.less$/,
             loaders: ["style", "css", "less"],
             exclude: "/(node_modules|bower_components)/"
         }, {
-            test: /.jsx?$/,
+            test: /\.scss$/,
+            loaders: ["style", "css", "sass"],
+            exclude: "/(node_modules|bower_components)/"
+        }, {
+            test: /\.jsx?$/,
             loaders: ['react-hot', 'babel?presets[]=es2015&presets[]=react'],
             exclude: "/node_modules/",
             include: path.resolve(__dirname, "src")
